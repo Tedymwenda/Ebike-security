@@ -42,6 +42,10 @@ jobs:
         working-directory: flutter_ebike_benchmark
         run: flutter pub get
 
+      - name: Make Gradle wrapper executable
+        working-directory: flutter_ebike_benchmark
+        run: chmod +x android/gradlew
+
       - name: Build Flutter APK
         working-directory: flutter_ebike_benchmark
         run: flutter build apk --debug
@@ -72,6 +76,10 @@ jobs:
 
       - name: Install Android platforms
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Make Gradle wrapper executable
+        working-directory: native_java_benchmark
+        run: chmod +x gradlew
 
       - name: Build Native Java APK
         working-directory: native_java_benchmark
@@ -116,6 +124,9 @@ jobs:
 
       - name: Generate Android project
         run: npx expo prebuild --platform android --non-interactive
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x android/gradlew
 
       - name: Build Expo APK
         working-directory: android
