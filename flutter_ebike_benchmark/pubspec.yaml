@@ -1,0 +1,24 @@
+name: flutter_ebike_benchmark
+description: "High-performance Flutter Cross-Platform E-Bike Dashboard and BLE GATT client"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_blue_plus: ^1.34.0
+  flutter_riverpod: ^2.5.1
+  google_fonts: ^6.2.1
+  fl_chart: ^0.68.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,23 @@
+{
+  "name": "titan-ebike-security",
+  "version": "1.0.0",
+  "private": true,
+  "main": "expo/AppEntry",
+  "scripts": {
+    "start": "expo start",
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "*",
+    "expo": "~58.0.23",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-native": "*",
+    "react-native-web": "*"
+  },
+  "devDependencies": {
+    "@types/react": "*",
+    "typescript": "~6.0.3"
+  }
+}

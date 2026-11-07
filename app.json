@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Titan E-Bike Security",
+    "slug": "titan-ebike-security",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "platforms": ["android", "ios", "web"]
+  }
+}

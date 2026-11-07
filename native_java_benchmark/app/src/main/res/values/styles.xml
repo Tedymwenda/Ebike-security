@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.Titan" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#06B6D4</item>
+        <item name="colorPrimaryVariant">#0891B2</item>
+        <item name="colorSecondary">#10B981</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">#030712</item>
+        <item name="android:statusBarColor">#030712</item>
+    </style>
+</resources>

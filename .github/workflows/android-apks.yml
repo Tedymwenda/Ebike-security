@@ -1,0 +1,129 @@
+name: Build Android APKs
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  flutter-apk:
+    name: Flutter debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platforms
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.47.9'
+          channel: stable
+          cache: true
+
+      - name: Resolve Flutter dependencies
+        working-directory: flutter_ebike_benchmark
+        run: flutter pub get
+
+      - name: Build Flutter APK
+        working-directory: flutter_ebike_benchmark
+        run: flutter build apk --debug
+
+      - name: Upload Flutter APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-debug-apk
+          path: flutter_ebike_benchmark/build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+
+  java-apk:
+    name: Native Java debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java and Gradle cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platforms
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Build Native Java APK
+        working-directory: native_java_benchmark
+        run: ./gradlew --no-daemon assembleDebug
+
+      - name: Upload Native Java APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-java-debug-apk
+          path: native_java_benchmark/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+  expo-apk:
+    name: Expo Android debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platforms
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Generate Android project
+        run: npx expo prebuild --platform android --non-interactive
+
+      - name: Build Expo APK
+        working-directory: android
+        run: ./gradlew --no-daemon assembleDebug
+
+      - name: Upload Expo APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: expo-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
